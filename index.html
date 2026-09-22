@@ -240,14 +240,32 @@
       if(thrust){
         ship.vx += Math.cos(ship.ang)*140*dt;
         ship.vy += Math.sin(ship.ang)*140*dt;
-        if(!reduced && Math.random()<.7) particles.push({x:ship.x-Math.cos(ship.ang)*10, y:ship.y-Math.sin(ship.ang)*10, life:1, vx:-Math.cos(ship.ang)*40+(Math.random()-.5)*20, vy:-Math.sin(ship.ang)*40+(Math.random()-.5)*20});
+        if(!reduced){
+          const backX=-Math.cos(ship.ang), backY=-Math.sin(ship.ang);
+          const perpX=-Math.sin(ship.ang), perpY=Math.cos(ship.ang);
+          const offsets=[-11,-6,-1,4,9];
+          for(const off of offsets){
+            if(Math.random()<0.55){
+              const jitter=(Math.random()-.5)*1.5;
+              particles.push({
+                x: ship.x + backX*8 + perpX*(off+jitter),
+                y: ship.y + backY*8 + perpY*(off+jitter),
+                ang: ship.ang,
+                len: 14+Math.random()*22,
+                life: 1,
+                vx: backX*(90+Math.random()*40),
+                vy: backY*(90+Math.random()*40)
+              });
+            }
+          }
+        }
       }
       ship.vx*=0.985; ship.vy*=0.985;
       ship.x += ship.vx*dt; ship.y += ship.vy*dt;
       ship.x = Math.max(20, Math.min(WORLD.w-20, ship.x));
       ship.y = Math.max(20, Math.min(WORLD.h-20, ship.y));
     }
-    for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.life-=dt*1.6; p.x+=p.vx*dt; p.y+=p.vy*dt; if(p.life<=0) particles.splice(i,1); }
+    for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.life-=dt*2.2; p.x+=p.vx*dt; p.y+=p.vy*dt; if(p.life<=0) particles.splice(i,1); }
 
     let nearest=null, nd=Infinity;
     for(const p of planets){
@@ -317,8 +335,22 @@
       ctx.fillText(p.name, px, py+p.r+22);
     }
 
-    ctx.fillStyle='#fff';
-    for(const pt of particles){ ctx.globalAlpha=Math.max(pt.life,0); ctx.beginPath(); ctx.arc(pt.x-cx, pt.y-cy, 2, 0, 7); ctx.fill(); }
+    ctx.lineCap='round';
+    for(const pt of particles){
+      const a=Math.max(pt.life,0);
+      const tailX = pt.x - Math.cos(pt.ang)*pt.len*(0.4+0.6*a);
+      const tailY = pt.y - Math.sin(pt.ang)*pt.len*(0.4+0.6*a);
+      const grad=ctx.createLinearGradient(pt.x-cx, pt.y-cy, tailX-cx, tailY-cy);
+      grad.addColorStop(0, `rgba(190,230,255,${a})`);
+      grad.addColorStop(1, `rgba(70,150,255,0)`);
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=1.4+1.6*a;
+      ctx.beginPath();
+      ctx.moveTo(pt.x-cx, pt.y-cy);
+      ctx.lineTo(tailX-cx, tailY-cy);
+      ctx.stroke();
+    }
+    ctx.lineCap='butt';
     ctx.globalAlpha=1;
 
     drawShip();
