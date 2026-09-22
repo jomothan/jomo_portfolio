@@ -255,8 +255,8 @@
       if(left) ship.ang -= 2.4*dt;
       if(right) ship.ang += 2.4*dt;
       if(thrust){
-        ship.vx += Math.cos(ship.ang)*140*dt;
-        ship.vy += Math.sin(ship.ang)*140*dt;
+        ship.vx += Math.cos(ship.ang)*200*dt;
+        ship.vy += Math.sin(ship.ang)*200*dt;
         if(!reduced && Math.random()<.7) particles.push({x:ship.x-Math.cos(ship.ang)*10, y:ship.y-Math.sin(ship.ang)*10, life:1, vx:-Math.cos(ship.ang)*40+(Math.random()-.5)*20, vy:-Math.sin(ship.ang)*40+(Math.random()-.5)*20});
       }
       ship.vx*=0.985; ship.vy*=0.985;
