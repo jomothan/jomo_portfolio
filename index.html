@@ -238,8 +238,8 @@
       if(left) ship.ang -= 2.4*dt;
       if(right) ship.ang += 2.4*dt;
       if(thrust){
-        ship.vx += Math.cos(ship.ang)*200*dt;
-        ship.vy += Math.sin(ship.ang)*200*dt;
+        ship.vx += Math.cos(ship.ang)*300*dt;
+        ship.vy += Math.sin(ship.ang)*300*dt;
         if(!reduced){
           const backX=-Math.cos(ship.ang), backY=-Math.sin(ship.ang);
           const perpX=-Math.sin(ship.ang), perpY=Math.cos(ship.ang);
