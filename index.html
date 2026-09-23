@@ -18,10 +18,16 @@
     --red:#ff5a4d;
     color-scheme: dark;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{height:100%;margin:0;background:var(--void);overflow:hidden;
     font-family:'Rajdhani',sans-serif; color:var(--text);
     padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);}
+  button, .btn, #mobileCtl button{
+    -webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout:none;
+    -webkit-user-select:none; user-select:none;
+    touch-action:manipulation;
+  }
   #c{position:fixed; inset:0; width:100%; height:100%; display:block; touch-action:none;}
 
   #hud{position:fixed; top:calc(14px + env(safe-area-inset-top,0px)); left:14px; right:14px;
@@ -33,7 +39,8 @@
   #callsign b{color:var(--text); font-size:15px;}
 
   #minimap{position:fixed; bottom:calc(14px + env(safe-area-inset-bottom,0px)); right:14px; width:150px; height:100px;
-    background:var(--panel); border:1px solid var(--line); border-radius:6px; z-index:5; overflow:hidden;}
+    background:var(--panel); border:1px solid var(--line); border-radius:6px; z-index:5; overflow:hidden;
+    -webkit-tap-highlight-color:transparent; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none;}
   .mm-dot{position:absolute; width:7px; height:7px; border-radius:50%; transform:translate(-50%,-50%);}
   .mm-ship{position:absolute; width:5px; height:5px; background:#fff; border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 0 5px #fff;}
   .mm-label{position:absolute; top:4px; left:6px; font-family:'Orbitron',sans-serif; font-size:9px; color:var(--text-dim); letter-spacing:.1em;}
